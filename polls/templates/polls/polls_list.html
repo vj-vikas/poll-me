@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+	<h1 class="text-center">Welcome to Poll List!</h1>
+	<div class="row">
+		<div clas="col-sm-6 offset-sm-3">
+			{% if messages %}
+			    {% for message in messages %}
+			    <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+			    	{{message}}
+			    </div>
+			    {% endfor %}
+			{% endif %}
+			<a href="{% url 'polls:add' %}" class="btn btn-primary" style="margin-bottom:5px">Add <i class="fas fa-plus"></i></a>
+			<ul class="list-group">
+			{% for poll in polls %}
+			<li class="list-group-item">
+			 <a href="{% url 'polls:detail' poll_id=poll.id %}">{{poll}}</a>
+			 {% if request.user == poll.owner %}
+			 <a href="{% url 'polls:edit_poll' poll.id %}" class="float-right"><i class="fas fa-pencil-alt"></i></a>
+			 {% endif %}
+			</li>		
+			{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
