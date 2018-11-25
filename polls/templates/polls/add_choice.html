@@ -26,7 +26,10 @@
 					</div>
 				{% endfor %}
 				<input type="submit" value="submit" class="btn btn-success" >
-				
+				{% if edit_mode %}
+				<a href="{% url 'polls:choice_confirm_delete' Choice.id %}" type="button" class="btn btn-danger">
+					<i class="fa fa-trash-alt"></i>Delete</a>
+				{% endif %}
 			</form>
 		</div>
 

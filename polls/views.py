@@ -118,4 +118,34 @@ def edit_choice(request,choice_id):
 			return redirect('polls:list')
 	else:
 		form = ChoiceForm(instance=Choice)
-	return render(request,'polls/add_choice.html',{'form':form,'edit_mode':True})
+	return render(request,'polls/add_choice.html',{'form':form,'edit_mode':True,'Choice':Choice})
+
+@login_required
+def delete_choice(request,choice_id):
+	Choice = get_object_or_404(choice,id=choice_id)
+	poll = get_object_or_404(Poll,id=Choice.poll.id)
+	if request.user != poll.owner:
+		return redirect('/')
+
+	if request.method == "POST":
+		Choice.delete()
+		messages.success(request,'choice delelted',
+			extra_tags='alert alert-success ')
+		return redirect('polls:list')
+
+	return render(request,'polls/delete_choice_confirm.html',{'Choice':Choice})
+
+@login_required
+def delete_poll(request,poll_id):
+	poll=get_object_or_404(Poll,id=poll_id)
+	if request.user != poll.owner:
+		return redirect('/')
+
+	if request.method=='POST':
+		poll.delete()
+		messages.success(request,'Poll is delelted successfully',
+						extra_tags='alert alert-success')
+		return redirect('polls:list')
+
+	return render(request,'polls/delete_poll_confirm.html',{'poll':poll})
+	

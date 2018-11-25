@@ -8,6 +8,8 @@ urlpatterns = [
    
     path('list/',views.polls_list,name="list"),
     path('add/',views.add_poll,name='add'),
+    path('delete/poll/<int:poll_id>/',views.delete_poll,name='poll_confirm_delete'),
+    path('delete/choice/<int:choice_id>/',views.delete_choice,name='choice_confirm_delete'),
     path('edit/<int:poll_id>/choice/add',views.add_choice,name="add_choice"),
     path('edit/choice/<int:choice_id>/',views.edit_choice,name="edit_choice"),
     path('edit/<int:poll_id>/',views.edit_poll,name='edit_poll'),
